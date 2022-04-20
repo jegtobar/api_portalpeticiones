@@ -32,7 +32,6 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
         return $persona;
         // return $this->model->get();
     }
-
     //Función para mostrar todos las personas (Válido promotores)
     function getPersonasByZonaPromotores(int $id, string $vecino){
         $persona = DB::table('personas')
