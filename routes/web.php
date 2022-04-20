@@ -332,6 +332,28 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         $router->get('/seguimientomuysatisfechos', 'SeguimientosExportController@reporteMuySatisfechos');
         //Reporte seguimiento vecinos mantenimiento muy satisfechos (excel)
         $router->get('/seguimientomntomuysatisfechos', 'SeguimientosExportController@reporteMntoMuySatisfechos');
+    
+        /*Reportes de alcaldes auxiliares zona 1 y 21 (alcaldias que cuentan con distritos)*/
+        //Reporte seguimiento vecinos satisfechos (excel)
+        $router->get('/seguimientosatisfechos/{id}/{distrito}', 'SeguimientoByAlcaldiaController@reporteSatisfechosByDistrito');
+        //Reporte seguimiento vecinos mantenimiento satisfechos (excel)
+        $router->get('/seguimientomntosatisfechos/{id}/{distrito}', 'SeguimientoByAlcaldiaController@reporteMntoSatisfechosByDistrito');
+        //Reporte seguimiento vecinos muy satisfechos (excel)
+        $router->get('/seguimientomuysatisfechos/{id}/{distrito}', 'SeguimientoByAlcaldiaController@reporteMuySatisfechosByDistrito');
+        //Reporte seguimiento vecinos mantenimiento muy satisfechos (excel)
+        $router->get('/seguimientomntomuysatisfechos/{id}/{distrito}', 'SeguimientoByAlcaldiaController@reporteMntoMuySatisfechosByDistrito');
+    
+        /*Reportes de alcaldes auxiliares zona 5 y 11 (alcaldias que cuentan con distritos)*/
+        //Reporte seguimiento vecinos satisfechos (excel)
+        $router->get('/seguimientosatisfechos/{id}', 'SeguimientoByAlcaldiaController@reporteSatisfechosByZona');
+        //Reporte seguimiento vecinos mantenimiento satisfechos (excel)
+        $router->get('/seguimientomntosatisfechos/{id}', 'SeguimientoByAlcaldiaController@reporteMntoSatisfechosByZona');
+        //Reporte seguimiento vecinos muy satisfechos (excel)
+        $router->get('/seguimientomuysatisfechos/{id}', 'SeguimientoByAlcaldiaController@reporteMuySatisfechosByZona');
+        //Reporte seguimiento vecinos mantenimiento muy satisfechos (excel)
+        $router->get('/seguimientomntomuysatisfechos/{id}', 'SeguimientoByAlcaldiaController@reporteMntoMuySatisfechosByZona');
+
+    
     });
 
     //RUTAS UTILIZADAS PARA DASHBOARD INDICADORES DE METAS VECINOS SATISFECHOS Y MUY SATISFECHOS - Y SUS MANTENIMIENTOS
