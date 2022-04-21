@@ -88,6 +88,10 @@ class PersonaController extends Controller
         $persona=$this->personaService->getPersonasByZonaDistritoMntoMuySatisfecho($id, $distrito);
         return response()->json(['persona'=>$persona, 'status'=>'Success']);
     }
+    function getPersonasByName(int $seguimiento, string $vecino){
+        $persona=$this->personaService->getPersonasByName($seguimiento, $vecino);
+        return response()->json(['persona'=>$persona, 'status'=>'Success']);
+    }
 
     function getPersonaInsatisfechos(){
         $personas=$this->personaService->getPersonasInsatisfechas();
