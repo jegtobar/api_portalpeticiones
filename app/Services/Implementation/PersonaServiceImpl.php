@@ -73,11 +73,11 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
         ->join('colonias','colonias.id','=','personas.colonia_id')
         ->where([
             ['personas.seguimiento','=',$seguimiento],
-            [DB::raw("CONCAT(personas.pNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%"]
+            [DB::raw("CONCAT(personas.pNombre,' ',personas.pApellido)"),'LIKE','%'.$vecino.'%']
             ])
         ->orWhere([
             ['personas.seguimiento','=',$seguimiento],
-            [DB::raw("CONCAT(personas.pNombre,' ',personas.sApellido)"),'LIKE',"%".$vecino."%"]
+            [DB::raw("CONCAT(personas.pNombre,' ',personas.sApellido)"),'LIKE','%'.$vecino.'%']
             ])
         ->whereNull('personas.deleted_at')
         ->get();

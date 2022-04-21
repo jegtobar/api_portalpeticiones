@@ -75,7 +75,6 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         $router->get('/lista', 'PersonaController@getPersona');
         //Personas por nombre y apellido
         $router->get('/lista/{seguimiento}/{vecino}', 'PersonaController@getPersonasByName');
-
         //Lista de todas las personas
         $router->get('/completo', 'PersonaController@getTodasLasPersonas');
 
