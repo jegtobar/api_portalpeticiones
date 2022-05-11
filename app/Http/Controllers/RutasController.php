@@ -15,8 +15,8 @@ class RutasController extends Controller
             ['menus.url','=',$request->url]
         ])
         ->get();
-
-
         return response()->json($rutas);
     }
+    
+
 }
