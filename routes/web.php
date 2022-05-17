@@ -24,35 +24,35 @@ $router->post('/login', 'UserController@login');
 
 //, "middleware"=>"auth"
 
-$router->group(["prefix"=>"/v1"], function()use($router){
+$router->group(["prefix" => "/v1"], function () use ($router) {
 
-        //Menu del usuario
-        $router->get('/menu/{id}', 'MenuController@getMenu');
-        //Rutas segun el rol del usuario
-        $router->post('/rutas', 'RutasController@getRutas');
+    //Menu del usuario
+    $router->get('/menu/{id}', 'MenuController@getMenu');
+    //Rutas segun el rol del usuario
+    $router->post('/rutas', 'RutasController@getRutas');
 
-        //Ruta cerrar sesión
-        $router->post('/logout', 'UserController@logout');
+    //Ruta cerrar sesión
+    $router->post('/logout', 'UserController@logout');
 
-        $router->group(["prefix"=>"/user"], function()use($router){
+    $router->group(["prefix" => "/user"], function () use ($router) {
         //Registro de usuarios
         $router->post('/register', 'UserController@createUser');
         //Lista de usuarios activos
-        $router->get('/usuarios','UserController@getListUser');
-         //Lista de usuarios (activos-inactivos)
-         $router->get('/listausuarios','UserController@getListAllUser');
-         //Usuario por id
-         $router->get('/usuario/{id}','UserController@getUserById');
-         //Usuario promotor segun alcaldía
-         $router->get('/promotor/{id}','UserController@getUserPromotor');
+        $router->get('/usuarios', 'UserController@getListUser');
+        //Lista de usuarios (activos-inactivos)
+        $router->get('/listausuarios', 'UserController@getListAllUser');
+        //Usuario por id
+        $router->get('/usuario/{id}', 'UserController@getUserById');
+        //Usuario promotor segun alcaldía
+        $router->get('/promotor/{id}', 'UserController@getUserPromotor');
 
         //Usuario promotor y coordinador segun alcaldía
-        $router->get('/promotorcoordinador/{id}','UserController@getUserPromotorCoordinador');
+        $router->get('/promotorcoordinador/{id}', 'UserController@getUserPromotorCoordinador');
         //Actualizar usuario
         $router->put("/{id}", "UserController@putUser");
 
         //Ruta para mostrar información del usuario que puede editar en su perfil
-        $router->get('/editUser/{id}','UserController@getUserEditById');
+        $router->get('/editUser/{id}', 'UserController@getUserEditById');
         //Ruta para editar datos del usuario y avatar
         $router->post('/editar', "UserController@postUserUpdate");
         //Eliminar usuario
@@ -63,11 +63,11 @@ $router->group(["prefix"=>"/v1"], function()use($router){
 
 
 
-        $router->group(["prefix"=>"/persona"], function()use($router){
+    $router->group(["prefix" => "/persona"], function () use ($router) {
         //Registro de vecinos
         $router->post('/register', 'PersonaController@createPersona');
 
-         /*Rutas Vecinos Satisfechos  y Mantenimiento Satisfechos
+        /*Rutas Vecinos Satisfechos  y Mantenimiento Satisfechos
 
         Al hablar de mantenimiento nos referimos a la constancia del vecino en calidad de satisfecho.*/
 
@@ -85,18 +85,18 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         $router->get('/vecinos/zona/{id}/{vecino}', 'PersonaController@getPersonasByZonaPromotores');
 
         //Lista de vecinos insatisfechos (Válido para alcaldes auxiliares y coordinadores)
-        $router->get('/insatisfechosporzona/{id}','PersonaController@getPersonasInsatisfechosByZona');
+        $router->get('/insatisfechosporzona/{id}', 'PersonaController@getPersonasInsatisfechosByZona');
 
         //Lista de vecinos insatisfechos (Válido para administradores y auditores)
-        $router->get('/insatisfechos','PersonaController@getPersonaInsatisfechos');
+        $router->get('/insatisfechos', 'PersonaController@getPersonaInsatisfechos');
 
         //Lista de vecinos satisfechos (Válido para alcaldes auxiliares y coordinadores)
-        $router->get('/listaporzona/{id}','PersonaController@getPersonasByZona');
+        $router->get('/listaporzona/{id}', 'PersonaController@getPersonasByZona');
 
         //Lista de vecinos por zona y distrito (Válido para alcaldes auxiliares y coordinadores)
-        $router->get('/listaporzonadistrito/{id}/{distrito}','PersonaController@getPersonasByZonaDistritoSatisfecho');
+        $router->get('/listaporzonadistrito/{id}/{distrito}', 'PersonaController@getPersonasByZonaDistritoSatisfecho');
 
-         //Lista de personas mantenimiento satisfechos (Válido para administradores y auditores)
+        //Lista de personas mantenimiento satisfechos (Válido para administradores y auditores)
         $router->get('/listaMantenimientoSatisfechos', 'PersonaController@getPersonaMantenimientoSatisfechos');
 
         //Lista de personas mantenimiento satisfechos (Válido para alcaldes auxiliares y coordinadores)
@@ -105,7 +105,7 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         //Lista de personas mantenimiento satisfechos para auditoría
         $router->get('/listaMntoSatisfechosAuditoria/{id}', 'PersonaController@getPersonaMntoSatisfechosAuditoría');
 
-        $router->get('/mntozonadistritosatisfechos/{id}/{distrito}','PersonaController@getPersonasByZonaDistritoMntoSatisfecho');
+        $router->get('/mntozonadistritosatisfechos/{id}/{distrito}', 'PersonaController@getPersonasByZonaDistritoMntoSatisfecho');
 
         //Ruta para actualizar el estatus del vecino de seguimiento a mantenimiento
         $router->put("/mantenimiento/{id}", "PersonaController@putMantenimientoSatisfecho");
@@ -115,41 +115,41 @@ $router->group(["prefix"=>"/v1"], function()use($router){
 
         */
 
-         /*
+        /*
         Rutas Vecinos Muy Satisfechos - Mantenimiento Vecinos Muy Satisfechos
          Al hablar de mantenimiento nos referimos a la constancia del vecino en calidad de muy satisfecho
          */
 
         //Lista de personas muy satisfechas válido para administradores y auditores
-        $router->get('/listaMuySatisfechos','PersonaController@getPersonaMuySatisfechos');
+        $router->get('/listaMuySatisfechos', 'PersonaController@getPersonaMuySatisfechos');
 
         //Lista de personas muy satisfechas válido para alcalde auxiliar y coordinadores
-        $router->get('/listaMuySatisfechos/{id}','PersonaController@getPersonaMuySatisfechosByZona');
+        $router->get('/listaMuySatisfechos/{id}', 'PersonaController@getPersonaMuySatisfechosByZona');
 
         //Lista de personas mantenimiento muy satisfechos válido para administradaores y auditores
-        $router->get('/listaMantenimientoMuySatisfechos','PersonaController@getPersonaMantenimientoMuySatisfechos');
-        
-         //Lista de vecinos por zona y distrito (Válido para alcaldes auxiliares y coordinadores)
-         $router->get('/listamuysatisfechoszonadistrito/{id}/{distrito}','PersonaController@getPersonasByZonaDistritoMuySatisfecho');
+        $router->get('/listaMantenimientoMuySatisfechos', 'PersonaController@getPersonaMantenimientoMuySatisfechos');
 
         //Lista de vecinos por zona y distrito (Válido para alcaldes auxiliares y coordinadores)
-        $router->get('/listamntomuysatisfechoszonadistrito/{id}/{distrito}','PersonaController@getPersonasByZonaDistritoMntoMuySatisfecho');
+        $router->get('/listamuysatisfechoszonadistrito/{id}/{distrito}', 'PersonaController@getPersonasByZonaDistritoMuySatisfecho');
+
+        //Lista de vecinos por zona y distrito (Válido para alcaldes auxiliares y coordinadores)
+        $router->get('/listamntomuysatisfechoszonadistrito/{id}/{distrito}', 'PersonaController@getPersonasByZonaDistritoMntoMuySatisfecho');
 
 
-         //Lista de personas mantenimiento muy satisfechos válido para alcalde auxiliar y coordinadores
-         $router->get('/listaMantenimientoMuySatisfechos/{id}','PersonaController@getPersonaMantenimientoMuySatisfechosByZona');
-        
-         //Lista de personas mantenimiento muy satisfechos válido para auditoress
-         $router->get('/listaMntoMuySatisfechosAuditoria/{id}','PersonaController@getPersonaMntoMuySatisfechosAuditoria');
-        
-        
-         /*
+        //Lista de personas mantenimiento muy satisfechos válido para alcalde auxiliar y coordinadores
+        $router->get('/listaMantenimientoMuySatisfechos/{id}', 'PersonaController@getPersonaMantenimientoMuySatisfechosByZona');
+
+        //Lista de personas mantenimiento muy satisfechos válido para auditoress
+        $router->get('/listaMntoMuySatisfechosAuditoria/{id}', 'PersonaController@getPersonaMntoMuySatisfechosAuditoria');
+
+
+        /*
         /*
         FIN DE SECCIÓN VECINOS MUY SATISFECHOS - MANTENIMIENTO VECINOS MUY SATISFECHOS xD
 
         */
 
-         //Lista de personas para llenar datatable
+        //Lista de personas para llenar datatable
         $router->get('/lista/table', 'PersonaController@getPersonaDataTable');
         //Mostrar persona por id
         $router->get('/{id}', 'PersonaController@getPersonaById');
@@ -159,12 +159,12 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         $router->put("/{id}", "PersonaController@putPersona");
         //Eliminar (deshabilitar) persona
         $router->delete("/{id}", "PersonaController@deletePersona");
-         //Restaurar vecino deshabilitado
+        //Restaurar vecino deshabilitado
         $router->get("/{id}/restore", "PersonaController@restorePersona");
     });
 
     //Rutas Gestiones
-    $router->group(["prefix"=>"/gestion"], function()use($router){
+    $router->group(["prefix" => "/gestion"], function () use ($router) {
         //Registro de gestion
         $router->post('/register', 'GestionController@createGestion');
         //Lista de gestiones
@@ -176,14 +176,14 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         //Actualizacion de gestión
         $router->put("/gestiones/{id}", "GestionController@putGestion");
         //Eliminar(deshabilitar) gestion
-        $router->get("/{id}/restore","GestionController@deleteGestion");
+        $router->get("/{id}/restore", "GestionController@deleteGestion");
         //Seguimiento de gestión según número de gestión
-        $router->get("/seguimiento/{id}","GestionController@getGestionSeguimientobyId");
+        $router->get("/seguimiento/{id}", "GestionController@getGestionSeguimientobyId");
         //Creacion de seguimiento de gestión
         $router->post('/seguimiento/create', 'GestionController@createSeguimientoGestion');
 
         //Lista de seguimiento vecino satisfecho por id persona
-        $router->get("/seguimiento/vecinosatisfecho/{id}","GestionController@getSeguimientoVecinosSatisfechosById");
+        $router->get("/seguimiento/vecinosatisfecho/{id}", "GestionController@getSeguimientoVecinosSatisfechosById");
         //Creacion de seguimiento vecino satisfecho
         $router->post('/seguimientosatisfecho/create', 'GestionController@createSeguimientoVecinosSatisfechos');
         //Creacion de seguimientos (modulo de promotores)
@@ -195,7 +195,7 @@ $router->group(["prefix"=>"/v1"], function()use($router){
 
 
         //Lista de seguimiento vecino muy satisfecho por id persona
-        $router->get("/seguimiento/vecinomuysatisfecho/{id}","GestionController@getSeguimientoVecinosMuySatisfechosById");
+        $router->get("/seguimiento/vecinomuysatisfecho/{id}", "GestionController@getSeguimientoVecinosMuySatisfechosById");
         //Creacion de seguimiento vecino muy satisfecho
         $router->post('/seguimientomuysatisfecho/create', 'GestionController@createSeguimientoVecinosMuySatisfechos');
         //Actualizar seguimiento de vecino muy satisfecho
@@ -204,7 +204,7 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         $router->delete('/seguimientomuysatisfecho/eliminar/{id}', 'GestionController@deleteSeguimientoMuySatisfecho');
 
         //Lista de seguimiento mantenimiento vecino satisfecho por id persona
-        $router->get("/seguimiento/mntovecinosatisfecho/{id}","GestionController@getSeguimientoMantenimientoVecinosSatisfechosById");
+        $router->get("/seguimiento/mntovecinosatisfecho/{id}", "GestionController@getSeguimientoMantenimientoVecinosSatisfechosById");
         //Creacion de seguimiento mantenimiento vecino  satisfecho
         $router->post('/mntoseguimientosatisfecho/create', 'GestionController@createSeguimientoVecinosMntoSatisfechos');
         //Actualizar seguimiento de mantenimiento vecino  satisfecho
@@ -214,18 +214,17 @@ $router->group(["prefix"=>"/v1"], function()use($router){
 
 
         //Lista de seguimiento mantenimiento vecino muy satisfecho por id persona
-        $router->get("/seguimiento/mntovecinomuysatisfecho/{id}","GestionController@getSeguimientoVecinosMntoMuySatisfechosById");
+        $router->get("/seguimiento/mntovecinomuysatisfecho/{id}", "GestionController@getSeguimientoVecinosMntoMuySatisfechosById");
         //Creacion de seguimiento mantenimiento vecino  muy satisfecho
         $router->post('/mntoseguimientomuysatisfecho/create', 'GestionController@createSeguimientoVecinosMntoMuySatisfechos');
         //Actualizar seguimiento de mantenimiento vecino muy  satisfecho
         $router->put('/mntoseguimientomuysatisfecho/actualizar/{id}', 'GestionController@putSeguimientoMantenimientoMuySatisfecho');
         //Eliminar seguimiento mantenimiento vecino muy  satisfecho
         $router->delete('/mntoseguimientomuysatisfecho/eliminar/{id}', 'GestionController@delSeguimientoMantenimientoMuySatisfecho');
-
     });
 
     //Rutas Catalogos
-    $router->group(["prefix"=>"/catalogo"], function()use($router){
+    $router->group(["prefix" => "/catalogo"], function () use ($router) {
 
         //Lista de alcaldias
         $router->get('/alcaldias', 'CatalogosController@getAlcaldias');
@@ -263,59 +262,54 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         $router->get('/rol/{id}', 'CatalogosController@getRol');
         //Todas las zonas alcaldias para creación de usuarios
         $router->get('/zonasAlcaldias', 'CatalogosController@getZonasAlcaldias');
-
-
     });
 
     //Rutas Metas
-    $router->group(["prefix"=>"/metas"], function()use($router){
+    $router->group(["prefix" => "/metas"], function () use ($router) {
         //METAS VECINOS SATISFECHOS
         //Ruta para listar metas vecinos satisfechos
-        $router->get('/satisfechos/{id}','MetasSatisfechosController@getMetasSatisfechos');
+        $router->get('/satisfechos/{id}', 'MetasSatisfechosController@getMetasSatisfechos');
         //Ruta para crear una meta de vecinos satisfechos
-        $router->post('/satisfechos/crear','MetasSatisfechosController@postMetaSatisfecho');
+        $router->post('/satisfechos/crear', 'MetasSatisfechosController@postMetaSatisfecho');
         //Ruta para actualizar una meta de vecinos satisfechos
-        $router->put('/satisfechos/actualizar/{id}','MetasSatisfechosController@putMetaSatisfecho');
+        $router->put('/satisfechos/actualizar/{id}', 'MetasSatisfechosController@putMetaSatisfecho');
         //Ruta para eliminar una meta
-        $router->delete('/satisfechos/eliminar/{id}','MetasSatisfechosController@deleteMetaSatisfecho');
+        $router->delete('/satisfechos/eliminar/{id}', 'MetasSatisfechosController@deleteMetaSatisfecho');
 
         //METAS VECINOS MUY SATISFECHOS
         //Ruta para listar metas vecinos muy satisfechos
-        $router->get('/muysatisfechos/{id}','MetasMuySatisfechosController@getMetasMuySatisfechos');
+        $router->get('/muysatisfechos/{id}', 'MetasMuySatisfechosController@getMetasMuySatisfechos');
         //Ruta para crear una meta de vecinos muy satisfechos
-        $router->post('/muysatisfechos/crear','MetasMuySatisfechosController@postMetaMuySatisfecho');
+        $router->post('/muysatisfechos/crear', 'MetasMuySatisfechosController@postMetaMuySatisfecho');
         //Ruta para actualizar una meta de vecinos muy satisfechos
-        $router->put('/muysatisfechos/actualizar/{id}','MetasMuySatisfechosController@putMetaMuySatisfecho');
+        $router->put('/muysatisfechos/actualizar/{id}', 'MetasMuySatisfechosController@putMetaMuySatisfecho');
         //Ruta para eliminar una meta
-        $router->delete('/muysatisfechos/eliminar/{id}','MetasMuySatisfechosController@deleteMetaMuySatisfecho');
+        $router->delete('/muysatisfechos/eliminar/{id}', 'MetasMuySatisfechosController@deleteMetaMuySatisfecho');
 
         //METAS MANTENIMIENTO VECINOS SATISFECHOS
         //Ruta para listar metas mantenimiento vecinos satisfechos
-        $router->get('/mntosatisfechos/{id}','MetasMntoSatisfechosController@getMetasMntoSatisfechos');
+        $router->get('/mntosatisfechos/{id}', 'MetasMntoSatisfechosController@getMetasMntoSatisfechos');
         //Ruta para crear una meta de mantenimiento vecinos satisfechos
-        $router->post('/mntosatisfechos/crear','MetasMntoSatisfechosController@postMetaMntoSatisfecho');
+        $router->post('/mntosatisfechos/crear', 'MetasMntoSatisfechosController@postMetaMntoSatisfecho');
         //Ruta para actualizar una meta de mantenimiento vecinos satisfechos
-        $router->put('/mntosatisfechos/actualizar/{id}','MetasMntoSatisfechosController@putMetaMntoSatisfecho');
+        $router->put('/mntosatisfechos/actualizar/{id}', 'MetasMntoSatisfechosController@putMetaMntoSatisfecho');
         //Ruta para eliminar una meta
-        $router->delete('/mntosatisfechos/eliminar/{id}','MetasMntoSatisfechosController@deleteMetaMntoSatisfecho');
+        $router->delete('/mntosatisfechos/eliminar/{id}', 'MetasMntoSatisfechosController@deleteMetaMntoSatisfecho');
 
 
         //METAS MANTENIMIENTO VECINOS MUY SATISFECHOS
         //Ruta para listar metas mantenimiento vecinos muy satisfechos
-        $router->get('/mntomuysatisfechos/{id}','MetasMntoMuySatisfechosController@getMetasMntoMuySatisfechos');
+        $router->get('/mntomuysatisfechos/{id}', 'MetasMntoMuySatisfechosController@getMetasMntoMuySatisfechos');
         //Ruta para crear una meta de mantenimiento vecinos muy satisfechos
-        $router->post('/mntomuysatisfechos/crear','MetasMntoMuySatisfechosController@postMetaMntoMuySatisfecho');
+        $router->post('/mntomuysatisfechos/crear', 'MetasMntoMuySatisfechosController@postMetaMntoMuySatisfecho');
         //Ruta para actualizar una meta de mantenimiento vecinos muy satisfechos
-        $router->put('/mntomuysatisfechos/actualizar/{id}','MetasMntoMuySatisfechosController@putMetaMntoMuySatisfecho');
+        $router->put('/mntomuysatisfechos/actualizar/{id}', 'MetasMntoMuySatisfechosController@putMetaMntoMuySatisfecho');
         //Ruta para eliminar una meta
-        $router->delete('/mntomuysatisfechos/eliminar/{id}','MetasMntoMuySatisfechosController@deleteMetaMntoMuySatisfecho');
-
-
-
+        $router->delete('/mntomuysatisfechos/eliminar/{id}', 'MetasMntoMuySatisfechosController@deleteMetaMntoMuySatisfecho');
     });
 
     //RUTAS DE REPORTES DE SEGUIMIENTO DE ACTIVIDADES NO REALIZADAS VECINOS SATISFECHOS, MUY SATISFECHOS Y SUS RESPECTIVOS MANTENIMIENTOS
-    $router->group(["prefix"=>"/reporte"], function()use($router){
+    $router->group(["prefix" => "/reporte"], function () use ($router) {
         //Reporte seguimiento vecinos satisfechos
         $router->get('/satisfechos/{id}', 'ReportesController@reporteSatisfechos');
         //Reporte seguimiento vecinos muy satisfechos
@@ -327,13 +321,22 @@ $router->group(["prefix"=>"/v1"], function()use($router){
 
         //Reporte seguimiento vecinos satisfechos (excel)
         $router->get('/seguimientosatisfechos', 'SeguimientosExportController@reporteSatisfechos');
+        //Reporte vecinos satisfechos que no tienen seguimientos (excel)
+        $router->get('/sinseguimientosatisfechos', 'SeguimientosExportController@reportePersonasSinSeguimientoSatisfechos');
+
         //Reporte seguimiento vecinos mantenimiento satisfechos (excel)
         $router->get('/seguimientomntosatisfechos', 'SeguimientosExportController@reporteMntoSatisfechos');
+        //Reporte vecinos mantenimiento satisfechos que no tienen seguimientos (excel)
+        $router->get('/sinseguimientomntosatisfechos', 'SeguimientosExportController@reportePersonasSinMntoSatisfechos');
         //Reporte seguimiento vecinos muy satisfechos (excel)
         $router->get('/seguimientomuysatisfechos', 'SeguimientosExportController@reporteMuySatisfechos');
+        //Reporte vecinos muy satisfechos sin seguimientos (excel)
+        $router->get('/sinseguimientomuysatisfechos', 'SeguimientosExportController@reportePersonasSinSeguimientoMuySatisfechos');
         //Reporte seguimiento vecinos mantenimiento muy satisfechos (excel)
         $router->get('/seguimientomntomuysatisfechos', 'SeguimientosExportController@reporteMntoMuySatisfechos');
-    
+        //Reporte vecinos mantenimiento muy satisfechos sin seguimientos (excel)
+        $router->get('/sinseguimientomntomuysatisfechos', 'SeguimientosExportController@reportePersonasSinMntoMuySatisfechos');
+
         /*Reportes de alcaldes auxiliares zona 1 y 21 (alcaldias que cuentan con distritos)*/
         //Reporte seguimiento vecinos satisfechos (excel)
         $router->get('/seguimientosatisfechos/{id}/{distrito}', 'SeguimientoByAlcaldiaController@reporteSatisfechosByDistrito');
@@ -343,8 +346,8 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         $router->get('/seguimientomuysatisfechos/{id}/{distrito}', 'SeguimientoByAlcaldiaController@reporteMuySatisfechosByDistrito');
         //Reporte seguimiento vecinos mantenimiento muy satisfechos (excel)
         $router->get('/seguimientomntomuysatisfechos/{id}/{distrito}', 'SeguimientoByAlcaldiaController@reporteMntoMuySatisfechosByDistrito');
-    
-        /*Reportes de alcaldes auxiliares zona 5 y 11 (alcaldias que cuentan con distritos)*/
+
+        /*Reportes de alcaldes auxiliares zona 5 y 11 (alcaldias que no cuentan con distritos)*/
         //Reporte seguimiento vecinos satisfechos (excel)
         $router->get('/seguimientosatisfechos/{id}', 'SeguimientoByAlcaldiaController@reporteSatisfechosByZona');
         //Reporte seguimiento vecinos mantenimiento satisfechos (excel)
@@ -354,14 +357,33 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         //Reporte seguimiento vecinos mantenimiento muy satisfechos (excel)
         $router->get('/seguimientomntomuysatisfechos/{id}', 'SeguimientoByAlcaldiaController@reporteMntoMuySatisfechosByZona');
 
-    
+
+         /*Reportes de alcaldes auxiliares zona 1 y 21 (alcaldias que cuentan con distritos)*/
+        //Reporte  vecinos satisfechos Sin Seguimientos (excel)
+        $router->get('/sinseguimientosatisfechos/{id}/{distrito}', 'SinSeguimientoByAlcaldiaController@reporteSatisfechosByDistrito');
+        //Reporte Sin Seguimientos  vecinos mantenimiento satisfechos (excel)
+        $router->get('/sinseguimientomntosatisfechos/{id}/{distrito}', 'SinSeguimientoByAlcaldiaController@reporteMntoSatisfechosByDistrito');
+        //Reporte Sin Seguimientos  vecinos muy satisfechos (excel)
+        $router->get('/sinseguimientomuysatisfechos/{id}/{distrito}', 'SinSeguimientoByAlcaldiaController@reporteMuySatisfechosByDistrito');
+        //Reporte sSin Seguimientos  vecinos mantenimiento muy satisfechos (excel)
+        $router->get('/sinseguimientomntomuysatisfechos/{id}/{distrito}', 'SinSeguimientoByAlcaldiaController@reporteMntoMuySatisfechosByDistrito');
+
+        /*Reportes de alcaldes auxiliares zona 5 y 11 (alcaldias que no cuentan con distritos)*/
+        //Reporte Sin Seguimientos vecinos satisfechos (excel)
+        $router->get('/sinseguimientosatisfechos/{id}', 'SinSeguimientoByAlcaldiaController@reporteSatisfechosByZona');
+        //Reporte Sin Seguimientos  vecinos mantenimiento satisfechos (excel)
+        $router->get('/sinseguimientomntosatisfechos/{id}', 'SinSeguimientoByAlcaldiaController@reporteMntoSatisfechosByZona');
+        //Reporte Sin Seguimientos  vecinos muy satisfechos (excel)
+        $router->get('/sinseguimientomuysatisfechos/{id}', 'SinSeguimientoByAlcaldiaController@reporteMuySatisfechosByZona');
+        //Reporte sSin Seguimientos  vecinos mantenimiento muy satisfechos (excel)
+        $router->get('/sinseguimientomntomuysatisfechos/{id}', 'SinSeguimientoByAlcaldiaController@reporteMntoMuySatisfechosByZona');
     });
 
     //RUTAS UTILIZADAS PARA DASHBOARD INDICADORES DE METAS VECINOS SATISFECHOS Y MUY SATISFECHOS - Y SUS MANTENIMIENTOS
-    $router->group(["prefix"=>"/dashboard"], function()use($router){
+    $router->group(["prefix" => "/dashboard"], function () use ($router) {
 
-    //DASHBOARD VECINOS SATISFECHOS:
-    //Dashboard metas vecinos satisfechos de todas las alcaldias
+        //DASHBOARD VECINOS SATISFECHOS:
+        //Dashboard metas vecinos satisfechos de todas las alcaldias
         $router->get('/satisfechos/{id}', 'DashboardController@getMetasAlcaldias');
         //Dashboard metas vecinos satisfechos de todas las colonias segun distrito
         $router->get('/satisfechos/{id}/{distrito}', 'DashboardController@getMetasSatisfechosByDistrito');
@@ -422,8 +444,8 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         //Dashboard metas vecinos satisfechos por distrito
         $router->get('/mntomuydistrito/{id}', 'DashboardMntoMuySatisfechoController@getMetasSatisfechosDistritos');
 
-         //Dashboard metas vecinos satisfechos por distrito para alcaldes
-         $router->get('/mntomuydistritoAlcaldia/{id}/{distrito}', 'DashboardMntoMuySatisfechoController@getMetasSatisfechosDistritosAlcaldia');
+        //Dashboard metas vecinos satisfechos por distrito para alcaldes
+        $router->get('/mntomuydistritoAlcaldia/{id}/{distrito}', 'DashboardMntoMuySatisfechoController@getMetasSatisfechosDistritosAlcaldia');
         //Dashboard metas vecinos satisfechos por sector (aplica para zona 11)
         $router->get('/mntomuyporsector/{id}', 'DashboardMntoMuySatisfechoController@getMetasSatisfechosBySector');
         //Dashboard meta global vecinos satisfechos por sector (aplica para zona 11)
@@ -431,12 +453,10 @@ $router->group(["prefix"=>"/v1"], function()use($router){
 
         //Dashboard meta global Region 1
         $router->get('/mntomuymetaregion', 'DashboardMntoMuySatisfechoController@getMetasRegionMntoMuySatisfecho');
-
-
     });
     //Rutas tableros de metas por promotor responsable
-    $router->group(["prefix"=>"/tablero"], function()use($router){
-    //Tablero Vecinos Satisfechos
+    $router->group(["prefix" => "/tablero"], function () use ($router) {
+        //Tablero Vecinos Satisfechos
         $router->get('/satisfechos', 'InicioController@getSatisfechos');
         //Tablero Mantenimiento Vecinos Satisfechos
         $router->get('/mntosatisfechos', 'InicioController@getMantenimientoSatisfechos');
@@ -444,7 +464,5 @@ $router->group(["prefix"=>"/v1"], function()use($router){
         $router->get('/muysatisfechos', 'InicioController@getMuySatisfechos');
         //Tablero Mantenimiento Vecinos Muy Satisfechos
         $router->get('/mntomuysatisfechos', 'InicioController@getMntoMuySatisfechos');
-
     });
-
 });

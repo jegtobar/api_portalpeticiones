@@ -23,9 +23,8 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
         ->where([
             ['personas.zona_id','=',$id],
             ['colonias.distrito_id','=',$distrito],
+            [DB::raw("CONCAT(personas.pNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%"]
         ])
-        ->where(DB::raw("CONCAT(personas.pNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%")
-        ->orWhere(DB::raw("CONCAT(personas.pNombre,' ',personas.sApellido)"),'LIKE',"%".$vecino."%")
         ->whereNull('personas.deleted_at')
         ->get();
         return $persona;
@@ -37,9 +36,10 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
         ->select('personas.id', 'personas.pNombre', 'personas.sNombre', 'personas.tNombre','personas.pApellido','personas.sApellido','personas.tApellido',DB::raw('DATE_FORMAT(personas.nacimiento,"%d/%m/%Y")AS fecha'),'personas.nacimiento','personas.direccion','personas.numero_casa','zonas.zona','personas.colonia_id','colonias.colonia','personas.telefono_casa','celular','personas.correo','personas.genero','personas.zona_id','personas.seguimiento')
         ->join('zonas','zonas.id','=','personas.zona_id')
         ->join('colonias','colonias.id','=','personas.colonia_id')
-        ->where('personas.zona_id','=',$id)
-        ->where(DB::raw("CONCAT(personas.pNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%")
-        ->orWhere(DB::raw("CONCAT(personas.pNombre,' ',personas.sApellido)"),'LIKE',"%".$vecino."%")
+        ->where([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.pNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%"]
+        ])
         ->whereNull('personas.deleted_at')
         ->orderBy('personas.id','ASC')
         ->get();
@@ -182,7 +182,7 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
     function getPersonasMntoSatisfechosAuditoria(int $id){
         
         $persona = DB::table('personas')
-        ->select('personas.id', 'personas.pNombre', 'personas.sNombre', 'personas.tNombre','personas.pApellido','personas.sApellido','personas.tApellido','personas.dpi',DB::raw('DATE_FORMAT(personas.nacimiento,"%d/%m/%Y")AS fecha'),'personas.nacimiento','personas.direccion','personas.numero_casa','zonas.zona','personas.colonia_id','colonias.colonia','personas.telefono_casa','celular','personas.correo','personas.genero','liderazgos.liderazgo AS tipo','personas.liderazgo','personas.zona_id','personas.usuario_actualiza')
+        ->select('personas.id', 'personas.pNombre', 'personas.sNombre', 'personas.tNombre','personas.pApellido','personas.sApellido','personas.tApellido','personas.dpi',DB::raw('DATE_FORMAT(personas.nacimiento,"%d/%m/%Y")AS fecha'),'personas.nacimiento','personas.direccion','personas.numero_casa','zonas.zona','personas.colonia_id','colonias.colonia','colonias.distrito_id','personas.telefono_casa','celular','personas.correo','personas.genero','liderazgos.liderazgo AS tipo','personas.liderazgo','personas.zona_id','personas.usuario_actualiza')
         ->join('zonas','zonas.id','=','personas.zona_id')
         ->join('liderazgos','liderazgos.id','=','personas.liderazgo')
         ->join('colonias','colonias.id','=','personas.colonia_id')
@@ -335,7 +335,7 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
 
         function getPersonasMntoMuySatisfechoAuditoria(int $id){
             $persona = DB::table('personas')
-            ->select('personas.id', 'personas.pNombre', 'personas.sNombre', 'personas.tNombre','personas.pApellido','personas.sApellido','personas.tApellido','personas.dpi',DB::raw('DATE_FORMAT(personas.nacimiento,"%d/%m/%Y")AS fecha'),'personas.nacimiento','personas.direccion','personas.numero_casa','zonas.zona','personas.colonia_id','colonias.colonia','personas.telefono_casa','celular','personas.correo','personas.genero','liderazgos.liderazgo AS tipo','personas.liderazgo','personas.zona_id','personas.usuario_actualiza')
+            ->select('personas.id', 'personas.pNombre', 'personas.sNombre', 'personas.tNombre','personas.pApellido','personas.sApellido','personas.tApellido','personas.dpi',DB::raw('DATE_FORMAT(personas.nacimiento,"%d/%m/%Y")AS fecha'),'personas.nacimiento','personas.direccion','personas.numero_casa','zonas.zona','personas.colonia_id','colonias.colonia','colonias.distrito_id','personas.telefono_casa','celular','personas.correo','personas.genero','liderazgos.liderazgo AS tipo','personas.liderazgo','personas.zona_id','personas.usuario_actualiza')
             ->join('zonas','zonas.id','=','personas.zona_id')
             ->join('liderazgos','liderazgos.id','=','personas.liderazgo')
             ->join('colonias','colonias.id','=','personas.colonia_id')

@@ -17,6 +17,4 @@ class RutasController extends Controller
         ->get();
         return response()->json($rutas);
     }
-    
-
 }
