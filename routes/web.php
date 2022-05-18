@@ -319,6 +319,11 @@ $router->group(["prefix" => "/v1"], function () use ($router) {
         //Reporte seguimiento mantenimiento vecinos satisfechos
         $router->get('/mntomuysatisfechos/{id}', 'ReportesController@reporteMntoMuySatisfechos');
 
+        //Reportes para auditoría
+        $router->get('/auditoria/mntosatisfechos/{id}', 'SeguimientosAuditoriaController@reporteMntoSatisfechos');
+        $router->get('/auditoria/mntomuysatisfechos/{id}', 'SeguimientosAuditoriaController@reporteMntoMuySatisfechos');
+
+
         //Reporte seguimiento vecinos satisfechos (excel)
         $router->get('/seguimientosatisfechos', 'SeguimientosExportController@reporteSatisfechos');
         //Reporte vecinos satisfechos que no tienen seguimientos (excel)
