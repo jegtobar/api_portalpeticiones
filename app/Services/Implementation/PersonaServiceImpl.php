@@ -25,6 +25,27 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
             ['colonias.distrito_id','=',$distrito],
             [DB::raw("CONCAT(personas.pNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%"]
         ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.sNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.pNombre,' ',personas.sApellido)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.sNombre,' ',personas.sApellido)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.pNombre,' ',personas.sNombre)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.pApellido,' ',personas.sApellido)"),'LIKE',"%".$vecino."%"]
+        ])
+        
         ->whereNull('personas.deleted_at')
         ->get();
         return $persona;
@@ -39,6 +60,26 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
         ->where([
             ['personas.zona_id','=',$id],
             [DB::raw("CONCAT(personas.pNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.sNombre,' ',personas.pApellido)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.pNombre,' ',personas.sApellido)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.sNombre,' ',personas.sApellido)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.pNombre,' ',personas.sNombre)"),'LIKE',"%".$vecino."%"]
+        ])
+        ->orWhere([
+            ['personas.zona_id','=',$id],
+            [DB::raw("CONCAT(personas.pApellido,' ',personas.sApellido)"),'LIKE',"%".$vecino."%"]
         ])
         ->whereNull('personas.deleted_at')
         ->orderBy('personas.id','ASC')
