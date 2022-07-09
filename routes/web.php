@@ -75,6 +75,13 @@ $router->group(["prefix" => "/v1"], function () use ($router) {
         $router->get('/lista', 'PersonaController@getPersona');
         //Personas por nombre y apellido
         $router->get('/lista/{seguimiento}/{vecino}', 'PersonaController@getPersonasByName');
+
+        //Personas por nombre y apellido para alcaldes auxiliares y coordinadores que pertenecen a la zona 1 y 21 por tener distritos
+        $router->get('/searchbyalcor/{seguimiento}/{alcaldia}/{distrito}/{vecino}', 'PersonasControllerAlcCor@getPersonasByZonaDistrito');
+
+         //Personas por nombre y apellido para alcaldes auxiliares y coordinadores que son de zona 5 y 21
+         $router->get('/searchbyalcaldiazona/{seguimiento}/{alcaldia}/{vecino}', 'PersonasControllerAlcCor@getPersonasByZona');
+
         //Lista de todas las personas
         $router->get('/completo', 'PersonaController@getTodasLasPersonas');
 
