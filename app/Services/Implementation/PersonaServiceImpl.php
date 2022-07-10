@@ -164,8 +164,8 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
         ->where([
             ['personas.seguimiento','=','1'],
             ['personas.zona_id','=',$id],
+            ['personas.deleted_at','=',null]
         ])
-        ->whereNull('personas.deleted_at')
         ->get();
         return $persona;
         // return $this->model->get();
@@ -181,8 +181,8 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
     ->where([
         ['personas.seguimiento','=','5'],
         ['personas.zona_id','=',$id],
+        ['personas.deleted_at','=',null]
     ])
-    ->whereNull('personas.deleted_at')
     ->get();
     return $persona;
     // return $this->model->get();
@@ -196,9 +196,9 @@ class PersonaServiceImpl implements IPersonasServiceInterface{
     ->join('liderazgos','liderazgos.id','=','personas.liderazgo')
     ->join('colonias','colonias.id','=','personas.colonia_id')
     ->where([
-        ['personas.seguimiento','=','5']
+        ['personas.seguimiento','=','5'],
+        ['personas.deleted_at','=',null]
     ])
-    ->whereNull('personas.deleted_at')
     ->get();
     return $persona;
     // return $this->model->get();

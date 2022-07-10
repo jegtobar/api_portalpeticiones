@@ -78,8 +78,11 @@ class UserServiceImpl implements IUserServiceInterface{
     }
     //Funcion para actualizacion de usuario @param int $id, @return boolean
     function putUser(array $user, int $id){
-        if($user['password']){
+        if(!empty($user['password'])){
             $user['password']=Hash::make($user['password']);
+        }
+        if($user['alcaldia_id']==2 || $user['alcaldia_id']==3){
+            $user['distrito_id']=null;
         }
         $this->model->where('id',$id)
         ->first()
