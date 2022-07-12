@@ -98,7 +98,7 @@ class GestionController extends Controller
     //Mostrar seguimiento de vecino satisfecho por id
        function getSeguimientoVecinosSatisfechosById(int $id){
         $response = DB::table('snto_vecinos_satisfechos')
-                    ->select('snto_vecinos_satisfechos.id','snto_vecinos_satisfechos.persona_id',DB::raw('DATE_FORMAT(snto_vecinos_satisfechos.fecha,"%d/%m/%Y")AS date'),'snto_vecinos_satisfechos.fecha','snto_vecinos_satisfechos.descripcion','cat_actividades.actividad','snto_vecinos_satisfechos.responsable','snto_vecinos_satisfechos.responsable','snto_vecinos_satisfechos.realizado' )
+                    ->select('snto_vecinos_satisfechos.id','snto_vecinos_satisfechos.persona_id',DB::raw('DATE_FORMAT(snto_vecinos_satisfechos.fecha,"%d/%m/%Y")AS date'),'snto_vecinos_satisfechos.fecha','snto_vecinos_satisfechos.descripcion','cat_actividades.actividad','snto_vecinos_satisfechos.responsable','snto_vecinos_satisfechos.realizado' )
                     ->join('cat_actividades','cat_actividades.id','=','snto_vecinos_satisfechos.actividad_id')
                     ->where([
                         ['snto_vecinos_satisfechos.persona_id','=',$id],
