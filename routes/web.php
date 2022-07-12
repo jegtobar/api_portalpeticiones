@@ -202,7 +202,7 @@ $router->group(["prefix" => "/v1"], function () use ($router) {
 
 
         //Lista de seguimiento vecino muy satisfecho por id persona
-        $router->get("/seguimiento/vecinomuysatisfecho/{id}", "GestionController@getSeguimientoVecinosMuySatisfechosById");
+        $router->get("/seguimiento/vecinomuysatisfecho/{id}", "SeguimientosController@getSeguimientosById");
         //Creacion de seguimiento vecino muy satisfecho
         $router->post('/seguimientomuysatisfecho/create', 'GestionController@createSeguimientoVecinosMuySatisfechos');
         //Actualizar seguimiento de vecino muy satisfecho
@@ -210,8 +210,12 @@ $router->group(["prefix" => "/v1"], function () use ($router) {
         //Eliminar seguimiento vecino muy satisfecho
         $router->delete('/seguimientomuysatisfecho/eliminar/{id}', 'GestionController@deleteSeguimientoMuySatisfecho');
 
-        //Lista de seguimiento mantenimiento vecino satisfecho por id persona
-        $router->get("/seguimiento/mntovecinosatisfecho/{id}", "GestionController@getSeguimientoMantenimientoVecinosSatisfechosById");
+
+        //LISTAR LOS SEGUIMIENTOS DE LOS VECINOS (ACTUALIZADO)
+        $router->get("/seguimientos/{id}", "SeguimientosController@getSeguimientosById");
+
+
+
         //Creacion de seguimiento mantenimiento vecino  satisfecho
         $router->post('/mntoseguimientosatisfecho/create', 'GestionController@createSeguimientoVecinosMntoSatisfechos');
         //Actualizar seguimiento de mantenimiento vecino  satisfecho
