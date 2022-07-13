@@ -334,6 +334,11 @@ $router->group(["prefix" => "/v1"], function () use ($router) {
         $router->get('/auditoria/mntosatisfechos/{id}', 'SeguimientosAuditoriaController@reporteMntoSatisfechos');
         $router->get('/auditoria/mntomuysatisfechos/{id}', 'SeguimientosAuditoriaController@reporteMntoMuySatisfechos');
 
+        //Para alcaldias que tienen distritos
+        $router->get('/auditoria/mntosatisfechos/{id}/{distrito}', 'ReportesByAlcaldiaController@reporteMntoSatisfechos');
+        $router->get('/auditoria/mntomuysatisfechos/{id}/{distrito}', 'ReportesByAlcaldiaController@reporteMntoSatisfechos');
+
+
 
         //Reporte seguimiento vecinos satisfechos (excel)
         $router->get('/seguimientosatisfechos', 'SeguimientosExportController@reporteSatisfechos');
