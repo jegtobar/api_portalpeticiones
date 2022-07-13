@@ -486,4 +486,16 @@ $router->group(["prefix" => "/v1"], function () use ($router) {
         //Tablero Mantenimiento Vecinos Muy Satisfechos
         $router->get('/mntomuysatisfechos', 'InicioController@getMntoMuySatisfechos');
     });
+
+    //Rutas listado de vecinos para descarga en excel
+    $router->group(["prefix" => "/listas"], function () use ($router) {
+        //Listados para administradores
+        $router->get('/vecinos', 'ListaPersonasController@listaVecinos');
+        //Listados para alcaldes auxiliares zona 1 y 21
+        $router->get('/vecinos/{id}/{distrito}', 'ListaPersonasController@listaVecinosAlcaldiaByDistrito');
+        //Listado para alcaldes auxiliares zona 5 y 11
+        $router->get('/vecinos/{id}', 'ListaPersonasController@listaVecinosAlcaldia');
+
+    });
+
 });
