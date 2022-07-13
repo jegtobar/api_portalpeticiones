@@ -68,12 +68,12 @@ class ReportesByAlcaldiaController extends Controller
 
         $output = $pdf->save($path);
 
-        return response()->json([
-            "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
-        ]);
         // return response()->json([
-        //     "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        //     "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
         // ]);
+        return response()->json([
+            "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        ]);
     }
 
     public function reporteMntoMuySatisfechos(int $id, int $distrito)
@@ -130,11 +130,11 @@ class ReportesByAlcaldiaController extends Controller
 
         $output = $pdf->save($path);
 
-        return response()->json([
-            "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
-        ]);
         // return response()->json([
-        //     "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        //     "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
         // ]);
+        return response()->json([
+            "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        ]);
     }
 }

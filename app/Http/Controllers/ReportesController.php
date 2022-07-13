@@ -65,13 +65,13 @@ class ReportesController extends Controller
 
         $output = $pdf->save($path);
 
-        return response()->json([
-            "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
-        ]);
+        // return response()->json([
+        //     "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
+        // ]);
 
-        // // return response()->json([
-        // //     "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
-        // // ]);
+        return response()->json([
+            "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        ]);
 
         // //return $pdf->download('reporte.pdf');
     }
@@ -124,13 +124,13 @@ class ReportesController extends Controller
 
         $output = $pdf->save($path);
 
-        return response()->json([
-            "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
-        ]);
-
         // return response()->json([
-        //     "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        //     "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
         // ]);
+
+        return response()->json([
+            "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        ]);
     }
 
     public function reporteMntoSatisfechos(int $id)
@@ -182,12 +182,12 @@ class ReportesController extends Controller
 
         $output = $pdf->save($path);
 
-        return response()->json([
-            "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
-        ]);
         // return response()->json([
-        //     "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        //     "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
         // ]);
+        return response()->json([
+            "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        ]);
     }
 
     public function reporteMntoMuySatisfechos(int $id)
@@ -240,11 +240,11 @@ class ReportesController extends Controller
 
         $output = $pdf->save($path);
 
-        return response()->json([
-            "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
-        ]);
         // return response()->json([
-        //     "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        //     "url_pdf" => "http://$_SERVER[HTTP_HOST]" . '/PortalPeticiones/api/public' . $name
         // ]);
+        return response()->json([
+            "url_pdf" => "https://$_SERVER[HTTP_HOST]" . '/apis/api-portalpeticiones/public' . $name
+        ]);
     }
 }
