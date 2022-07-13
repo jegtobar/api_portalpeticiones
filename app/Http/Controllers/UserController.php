@@ -141,6 +141,7 @@ class UserController extends Controller
         ->join('alcaldias','alcaldias.id','=','users.alcaldia_id')
         ->join('roles','roles.id','=','users.rol_id')
         ->whereUsername($request->username)
+        ->whereNull('users.deleted_at')
         ->first();
         if(!is_null($user) && Hash::check($request->password, $user->password)){
             
