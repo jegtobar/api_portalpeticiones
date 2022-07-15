@@ -15,11 +15,11 @@ class DashboardMntoSatisfechoController extends Controller
     WHERE a.seguimiento = 2 AND a.deleted_at IS NULL";
     $metaRegion = DB::select($query);
 
-    $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b WHERE b.alcaldia_id = a.zona_id)AS meta, c.alcaldia
+    $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
     FROM personas a
-    INNER JOIN alcaldias c ON c.id = a.zona_id
-    WHERE a.seguimiento = 2 AND a.deleted_at IS NULL
-    GROUP BY a.zona_id";
+    INNER JOIN colonias c ON c.id = a.colonia_id
+    WHERE a.seguimiento = 2 AND a.deleted_at IS NULL 
+    GROUP BY a.colonia_id";
 
     $metasPorAlcaldias = DB::select($query);
     $acumulados = 0;
@@ -1314,9 +1314,6 @@ class DashboardMntoSatisfechoController extends Controller
       }
       $meta->chart = $chart;
     }
-
-
-
     return response()->json($metas);
   }
 
