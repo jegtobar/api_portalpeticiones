@@ -466,7 +466,7 @@ $router->group(["prefix" => "/v1"], function () use ($router) {
         $router->get('/mntomuydistrito/{id}', 'DashboardMntoMuySatisfechoController@getMetasSatisfechosDistritos');
 
         //Dashboard metas vecinos satisfechos por distrito para alcaldes
-        $router->get('/mntomuydistritoAlcaldia/{id}/{distrito}', 'DashboardMntoMuySatisfechoController@getMetasSatisfechosDistritosAlcaldia');
+        $router->get('/mntomuydistritoAlcaldia/{id}/{distrito}', 'DashboardMntoMuySatisfechoController@getMetasSatisfechosByDistritosAlcaldia');
         //Dashboard metas vecinos satisfechos por sector (aplica para zona 11)
         $router->get('/mntomuyporsector/{id}', 'DashboardMntoMuySatisfechoController@getMetasSatisfechosBySector');
         //Dashboard meta global vecinos satisfechos por sector (aplica para zona 11)
