@@ -18,16 +18,16 @@ class MetaMntoMuySatisfechosServiceImpl implements IMetasMntoMuySatisfechosServi
 
     //Función para listar las metas
     function getMetas(int $id){
-        $metas=DB::table('metas_mnto_muysatisfechos')
-        ->select(DB::raw("CONCAT(users.nombres,' ',users.apellidos)AS responsable"),'metas_mnto_muysatisfechos.id',DB::raw('DATE_FORMAT(metas_mnto_muysatisfechos.fecha,"%d-%m-%Y")AS fecha'),'metas_mnto_muysatisfechos.fecha','metas_mnto_muysatisfechos.meta','metas_mnto_muysatisfechos.actual','metas_mnto_muysatisfechos.por_alcanzar','colonias.colonia')
-        ->join('colonias','colonias.id','=','metas_mnto_muysatisfechos.colonia_id')
-        ->join('users','users.id','=','metas_mnto_muysatisfechos.responsable')
-        ->where('metas_mnto_muysatisfechos.alcaldia_id', $id)
-        ->get();
+        $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, 
+        (((SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id))-(SELECT COUNT(a.id)AS actual))AS por_alcanzar, c.colonia,
+        (SELECT CONCAT(d.nombres,' ',d.apellidos) FROM users d INNER JOIN  metas_mnto_muysatisfechos b ON b.responsable = d.id WHERE b.colonia_id = a.colonia_id)AS responsable,
+        (SELECT DATE_FORMAT(b.fecha,'%d/%m/%Y')FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS fecha
+        FROM personas a
+        INNER JOIN colonias c ON c.id = a.colonia_id
+        WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $id
+        GROUP BY a.colonia_id";
+        $metas=DB::select($query);
         return $metas;
-
-
-
     }
 
     //Función para guardar una meta
