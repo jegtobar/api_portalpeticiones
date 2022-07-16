@@ -12,6 +12,7 @@ class DashboardMntoSatisfechoController extends Controller
   {
     $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b)AS meta
     FROM personas a
+    INNER JOIN metas_mnto_satisfechos d ON d.colonia_id = a.colonia_id
     WHERE a.seguimiento = 2 AND a.deleted_at IS NULL";
     $metaRegion = DB::select($query);
 
@@ -179,6 +180,7 @@ class DashboardMntoSatisfechoController extends Controller
     $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b WHERE b.alcaldia_id = a.zona_id)AS meta, c.alcaldia, a.zona_id
     FROM personas a
     INNER JOIN alcaldias c ON c.id = a.zona_id
+    INNER JOIN metas_mnto_satisfechos d ON d.colonia_id = a.colonia_id
     WHERE a.seguimiento = 2 AND a.deleted_at IS NULL
     GROUP BY a.zona_id";
     $metas = DB::select($query);
@@ -346,6 +348,7 @@ class DashboardMntoSatisfechoController extends Controller
     $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b WHERE b.alcaldia_id = a.zona_id)AS meta, c.alcaldia, a.zona_id
     FROM personas a
     INNER JOIN alcaldias c ON c.id = a.zona_id
+    INNER JOIN metas_mnto_satisfechos d ON d.colonia_id = a.colonia_id
     WHERE a.seguimiento = 2 AND a.deleted_at IS NULL and a.zona_id = $id
     GROUP BY a.zona_id";
     $metas = DB::select($query);
