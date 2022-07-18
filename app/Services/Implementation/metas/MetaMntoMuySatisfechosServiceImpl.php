@@ -18,14 +18,18 @@ class MetaMntoMuySatisfechosServiceImpl implements IMetasMntoMuySatisfechosServi
 
     //Función para listar las metas
     function getMetas(int $id){
-        $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, 
-        (((SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id))-(SELECT COUNT(a.id)AS actual))AS por_alcanzar, c.colonia,
-        (SELECT CONCAT(d.nombres,' ',d.apellidos) FROM users d INNER JOIN  metas_mnto_muysatisfechos b ON b.responsable = d.id WHERE b.colonia_id = a.colonia_id)AS responsable,
-        (SELECT DATE_FORMAT(b.fecha,'%d/%m/%Y')FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS fecha_meta, (SELECT b.fecha FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS fecha , (SELECT b.id FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS id
-        FROM personas a
+        $query = "SELECT a.id, 
+        SUM(a.meta)AS meta, 
+        (SELECT COUNT(b.id) FROM personas b WHERE b.seguimiento = 4 AND b.deleted_at IS NULL AND b.colonia_id = a.colonia_id) AS actual, 
+        (SUM(a.meta)- (SELECT COUNT(b.id) FROM personas b WHERE b.seguimiento = 4 AND b.deleted_at IS NULL AND b.colonia_id = a.colonia_id))AS por_alcanzar,
+        c.colonia,
+        (SELECT CONCAT(d.nombres,' ',d.apellidos) FROM users d INNER JOIN metas_mnto_satisfechos b ON b.responsable = d.id WHERE b.colonia_id = a.colonia_id)AS responsable,
+        DATE_FORMAT(a.fecha,'%d/%m/%Y')AS fecha_meta,
+        a.fecha
+        FROM metas_mnto_satisfechos a
         INNER JOIN colonias c ON c.id = a.colonia_id
-        WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $id
-        GROUP BY a.colonia_id, c.colonia";
+        WHERE a.alcaldia_id = $id
+        GROUP BY c.colonia, a.id, a.fecha";
         $metas=DB::select($query);
         return $metas;
     }
