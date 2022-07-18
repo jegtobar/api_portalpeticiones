@@ -19,7 +19,7 @@ class DashboardMntoMuySatisfechoController extends Controller
   FROM personas a
   INNER JOIN colonias c ON c.id = a.colonia_id
   WHERE a.seguimiento = 4 AND a.deleted_at IS NULL 
-  GROUP BY a.colonia_id";
+  GROUP BY a.colonia_id, c.colonia";
 
     $metasPorAlcaldias = DB::select($query);
     $acumulados = 0;
