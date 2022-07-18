@@ -18,6 +18,7 @@ class DashboardMntoSatisfechoController extends Controller
     $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
   FROM personas a
   INNER JOIN colonias c ON c.id = a.colonia_id
+  INNER JOIN metas_mnto_satisfechos d ON d.colonia_id = a.colonia_id
   WHERE a.seguimiento = 2 AND a.deleted_at IS NULL 
   GROUP BY a.colonia_id, c.colonia";
 
@@ -189,7 +190,7 @@ class DashboardMntoSatisfechoController extends Controller
       $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
       FROM personas a
       INNER JOIN colonias c ON c.id = a.colonia_id
-      INNER JOIN metas_mnto_muysatisfechos d ON d.colonia_id = a.colonia_id
+      INNER JOIN metas_mnto_satisfechos d ON d.colonia_id = a.colonia_id
       WHERE a.seguimiento = 2 AND a.deleted_at IS NULL AND a.zona_id = $meta->zona_id
       GROUP BY a.colonia_id, c.colonia";
       $res = DB::Select($query);
@@ -358,6 +359,7 @@ class DashboardMntoSatisfechoController extends Controller
       $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
       FROM personas a
       INNER JOIN colonias c ON c.id = a.colonia_id
+      INNER JOIN metas_mnto_satisfechos d ON d.colonia_id = a.colonia_id
       WHERE a.seguimiento = 2 AND a.deleted_at IS NULL AND a.zona_id = $meta->zona_id
       GROUP BY a.colonia_id";
       $res = DB::Select($query);
@@ -670,6 +672,7 @@ class DashboardMntoSatisfechoController extends Controller
     $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_satisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
     FROM personas a
     INNER JOIN colonias c ON c.id = a.colonia_id
+    INNER JOIN metas_mnto_satisfechos d ON d.colonia_id = a.colonia_id
     WHERE a.seguimiento = 2 AND a.deleted_at IS NULL AND a.zona_id = $id 
     GROUP BY a.colonia_id, c.colonia";
     $metas = DB::select($query);
