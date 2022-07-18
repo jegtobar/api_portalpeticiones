@@ -9,9 +9,9 @@ class ListaPersonasController extends Controller
     public function listaVecinos(){
         $reportes = DB::table('personas')
         ->select('personas.id', DB::raw('(CASE 
-        WHEN personas.seguimiento=1 THEN "Satisfecho"
+        WHEN personas.seguimiento=1 THEN "Seguimiento satisfecho"
         WHEN personas.seguimiento=2 THEN "Mantenimiento satisfecho"
-        WHEN personas.seguimiento=3 THEN "Muy Satisfecho"
+        WHEN personas.seguimiento=3 THEN "Seguimiento muy satisfecho"
         ELSE "Mantenimiento muy satisfecho" END) AS seguimiento'), 'personas.pNombre', 'personas.sNombre', 'personas.tNombre','personas.pApellido','personas.sApellido','personas.tApellido','personas.dpi',DB::raw('DATE_FORMAT(personas.nacimiento,"%d/%m/%Y")AS fecha'),'personas.nacimiento','personas.direccion','personas.numero_casa','zonas.zona','personas.colonia_id','colonias.colonia','colonias.distrito_id','personas.telefono_casa','personas.celular','personas.correo','personas.genero','liderazgos.liderazgo AS tipo','personas.liderazgo')
         ->join('zonas','zonas.id','=','personas.zona_id')
         ->join('liderazgos','liderazgos.id','=','personas.liderazgo')
@@ -32,9 +32,9 @@ class ListaPersonasController extends Controller
         }
         $reportes = DB::table('personas')
         ->select('personas.id', DB::raw('(CASE 
-        WHEN personas.seguimiento=1 THEN "Satisfecho"
+        WHEN personas.seguimiento=1 THEN "Seguimiento satisfecho"
         WHEN personas.seguimiento=2 THEN "Mantenimiento satisfecho"
-        WHEN personas.seguimiento=3 THEN "Muy Satisfecho"
+        WHEN personas.seguimiento=3 THEN "Seguimiento muy satisfecho"
         ELSE "Mantenimiento muy satisfecho" END) AS seguimiento'), 'personas.pNombre', 'personas.sNombre', 'personas.tNombre','personas.pApellido','personas.sApellido','personas.tApellido','personas.dpi',DB::raw('DATE_FORMAT(personas.nacimiento,"%d/%m/%Y")AS fecha'),'personas.nacimiento','personas.direccion','personas.numero_casa','zonas.zona','personas.colonia_id','colonias.colonia','colonias.distrito_id','personas.telefono_casa','personas.celular','personas.correo','personas.genero','liderazgos.liderazgo AS tipo','personas.liderazgo')
         ->join('zonas','zonas.id','=','personas.zona_id')
         ->join('liderazgos','liderazgos.id','=','personas.liderazgo')
@@ -59,9 +59,9 @@ class ListaPersonasController extends Controller
         }
         $reportes = DB::table('personas')
         ->select('personas.id', DB::raw('(CASE 
-        WHEN personas.seguimiento=1 THEN "Satisfecho"
+        WHEN personas.seguimiento=1 THEN "Seguimiento satisfecho"
         WHEN personas.seguimiento=2 THEN "Mantenimiento satisfecho"
-        WHEN personas.seguimiento=3 THEN "Muy Satisfecho"
+        WHEN personas.seguimiento=3 THEN "Seguimiento muy satisfecho"
         ELSE "Mantenimiento muy satisfecho" END) AS seguimiento'), 'personas.pNombre', 'personas.sNombre', 'personas.tNombre','personas.pApellido','personas.sApellido','personas.tApellido','personas.dpi',DB::raw('DATE_FORMAT(personas.nacimiento,"%d/%m/%Y")AS fecha'),'personas.nacimiento','personas.direccion','personas.numero_casa','zonas.zona','personas.colonia_id','colonias.colonia','colonias.distrito_id','personas.telefono_casa','personas.celular','personas.correo','personas.genero','liderazgos.liderazgo AS tipo','personas.liderazgo')
         ->join('zonas','zonas.id','=','personas.zona_id')
         ->join('liderazgos','liderazgos.id','=','personas.liderazgo')
