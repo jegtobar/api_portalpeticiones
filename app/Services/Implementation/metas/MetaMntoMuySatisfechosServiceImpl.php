@@ -29,7 +29,7 @@ class MetaMntoMuySatisfechosServiceImpl implements IMetasMntoMuySatisfechosServi
         FROM metas_mnto_satisfechos a
         INNER JOIN colonias c ON c.id = a.colonia_id
         WHERE a.alcaldia_id = $id
-        GROUP BY c.colonia, a.id, a.fecha";
+        GROUP BY c.colonia, a.id, a.fecha, a.colonia_id";
         $metas=DB::select($query);
         return $metas;
     }
