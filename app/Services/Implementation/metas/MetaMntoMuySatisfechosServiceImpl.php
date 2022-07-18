@@ -23,10 +23,10 @@ class MetaMntoMuySatisfechosServiceImpl implements IMetasMntoMuySatisfechosServi
         (SELECT COUNT(b.id) FROM personas b WHERE b.seguimiento = 4 AND b.deleted_at IS NULL AND b.colonia_id = a.colonia_id) AS actual, 
         (SUM(a.meta)- (SELECT COUNT(b.id) FROM personas b WHERE b.seguimiento = 4 AND b.deleted_at IS NULL AND b.colonia_id = a.colonia_id))AS por_alcanzar,
         c.colonia,
-        (SELECT CONCAT(d.nombres,' ',d.apellidos) FROM users d INNER JOIN metas_mnto_satisfechos b ON b.responsable = d.id WHERE b.colonia_id = a.colonia_id)AS responsable,
+        (SELECT CONCAT(d.nombres,' ',d.apellidos) FROM users d INNER JOIN metas_mnto_muysatisfechos b ON b.responsable = d.id WHERE b.colonia_id = a.colonia_id)AS responsable,
         DATE_FORMAT(a.fecha,'%d/%m/%Y')AS fecha_meta,
         a.fecha
-        FROM metas_mnto_satisfechos a
+        FROM metas_mnto_muysatisfechos a
         INNER JOIN colonias c ON c.id = a.colonia_id
         WHERE a.alcaldia_id = $id
         GROUP BY c.colonia, a.id, a.fecha, a.colonia_id";
