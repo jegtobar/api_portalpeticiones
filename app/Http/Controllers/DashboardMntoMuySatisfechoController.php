@@ -180,7 +180,7 @@ class DashboardMntoMuySatisfechoController extends Controller
       INNER JOIN alcaldias c ON c.id = a.zona_id
       INNER JOIN metas_mnto_muysatisfechos d ON d.colonia_id = a.colonia_id
       WHERE a.seguimiento = 4 AND a.deleted_at IS NULL
-      GROUP BY a.zona_id";
+      GROUP BY a.zona_id, c.alcaldia";
     $metas = DB::select($query);
 
     foreach ($metas as $meta) {
@@ -189,7 +189,7 @@ class DashboardMntoMuySatisfechoController extends Controller
         FROM personas a
         INNER JOIN colonias c ON c.id = a.colonia_id
         WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $meta->zona_id
-        GROUP BY a.colonia_id";
+        GROUP BY a.colonia_id, c.colonia";
       $res = DB::Select($query);
       foreach ($res as $resultado) {
         if ($resultado->meta < $resultado->actual) {
@@ -346,7 +346,7 @@ class DashboardMntoMuySatisfechoController extends Controller
     INNER JOIN alcaldias c ON c.id = a.zona_id
     INNER JOIN metas_mnto_muysatisfechos d ON d.colonia_id = a.colonia_id
     WHERE a.seguimiento = 4 AND a.deleted_at IS NULL and a.zona_id = $id
-    GROUP BY a.zona_id";
+    GROUP BY a.zona_id, c.alcaldia";
     $metas = DB::select($query);
 
     foreach ($metas as $meta) {
@@ -355,7 +355,7 @@ class DashboardMntoMuySatisfechoController extends Controller
       FROM personas a
       INNER JOIN colonias c ON c.id = a.colonia_id
       WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $meta->zona_id
-      GROUP BY a.colonia_id";
+      GROUP BY a.colonia_id, c.colonia";
       $res = DB::Select($query);
       foreach ($res as $resultado) {
         if ($resultado->meta < $resultado->actual) {
@@ -512,7 +512,7 @@ class DashboardMntoMuySatisfechoController extends Controller
     FROM personas a
     INNER JOIN colonias c ON c.id = a.colonia_id
     WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $id AND c.distrito_id = $distrito
-    GROUP BY a.colonia_id";
+    GROUP BY a.colonia_id, c.colonia";
     $metas = DB::select($query);
 
     foreach ($metas as $meta) {
@@ -666,7 +666,7 @@ class DashboardMntoMuySatisfechoController extends Controller
     FROM personas a
     INNER JOIN colonias c ON c.id = a.colonia_id
     WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $id 
-    GROUP BY a.colonia_id";
+    GROUP BY a.colonia_id, c.colonia";
     $metas = DB::select($query);
     foreach ($metas as $meta) {
       if ($meta->meta < $meta->actual) {
@@ -876,7 +876,7 @@ class DashboardMntoMuySatisfechoController extends Controller
       FROM personas a
       INNER JOIN colonias c ON c.id = a.colonia_id
       WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $id AND c.distrito_id = $meta->distrito
-      GROUP BY a.colonia_id";
+      GROUP BY a.colonia_id, c.colonia";
       $res = DB::Select($query);
       foreach ($res as $resultado) {
         if ($resultado->meta < $resultado->actual) {
@@ -1092,7 +1092,7 @@ class DashboardMntoMuySatisfechoController extends Controller
       FROM personas a
       INNER JOIN colonias c ON c.id = a.colonia_id
       WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $id AND c.distrito_id = $meta->distrito
-      GROUP BY a.colonia_id";
+      GROUP BY a.colonia_id, c.colonia";
       $res = DB::Select($query);
       foreach ($res as $resultado) {
         if ($resultado->meta < $resultado->actual) {
@@ -1246,7 +1246,7 @@ class DashboardMntoMuySatisfechoController extends Controller
     FROM personas a
     INNER JOIN colonias c ON c.id = a.colonia_id
     WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = $id
-    GROUP BY a.colonia_id";
+    GROUP BY a.colonia_id, c.colonia";
     $metas = DB::select($query);
     foreach ($metas as $meta) {
       if ($meta->meta < $meta->actual) {
@@ -1425,7 +1425,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           FROM personas a
           INNER JOIN colonias c ON c.id = a.colonia_id
           WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 1
-          GROUP BY a.colonia_id";
+          GROUP BY a.colonia_id, c.colonia";
           $res = DB::select($query);
           foreach ($res as $e) {
             $resta = 0;
@@ -1441,7 +1441,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           FROM personas a
           INNER JOIN colonias c ON c.id = a.colonia_id
           WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 2
-          GROUP BY a.colonia_id";
+          GROUP BY a.colonia_id, c.colonia";
           $res = DB::select($query);
           foreach ($res as $e) {
             $resta = 0;
@@ -1457,7 +1457,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           FROM personas a
           INNER JOIN colonias c ON c.id = a.colonia_id
           WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 3
-          GROUP BY a.colonia_id";
+          GROUP BY a.colonia_id, c.colonia";
           $res = DB::select($query);
           foreach ($res as $e) {
             $resta = 0;
@@ -1473,7 +1473,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           FROM personas a
           INNER JOIN colonias c ON c.id = a.colonia_id
           WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 4
-          GROUP BY a.colonia_id";
+          GROUP BY a.colonia_id, c.colonia";
           $res = DB::select($query);
           foreach ($res as $e) {
             $resta = 0;
@@ -1489,7 +1489,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           FROM personas a
           INNER JOIN colonias c ON c.id = a.colonia_id
           WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 5
-          GROUP BY a.colonia_id";
+          GROUP BY a.colonia_id, c.colonia";
           $res = DB::select($query);
           foreach ($res as $e) {
             $resta = 0;
