@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardMntoMuySatisfechoController extends Controller
 {
-  //Funcion para mostrar las metas de vecinos satisfechos de las alcaldias auxiliares
+  //Funcion para mostrar las metas de vecinos satisfechos de las alcaldias auxiliares.
   function getMetasRegionMntoMuySatisfecho()
   {
     $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b)AS meta
