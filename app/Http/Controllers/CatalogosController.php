@@ -67,6 +67,11 @@ class CatalogosController extends Controller{
         return response()->json(['zonas'=>$zonas, 'status'=>'Success']);
     }
 
+    function getZonasByAlcaldia(int $id){
+        $zonas=$this->zonasService->getZonasByAlcaldia($id);
+        return response()->json(['zonas'=>$zonas, 'status'=>'Success']);
+    }
+
        //Listar liderazgo en json
        function getLiderazgo(){
         $liderazgo=$this->liderazgoService->getLiderazgo();
