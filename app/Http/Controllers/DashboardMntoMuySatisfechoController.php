@@ -15,25 +15,29 @@ class DashboardMntoMuySatisfechoController extends Controller
     WHERE a.seguimiento = 4 AND a.deleted_at IS NULL";
     $metaRegion = DB::select($query);
 
-    $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-  FROM personas a
-  INNER JOIN colonias c ON c.id = a.colonia_id
-  INNER JOIN metas_mnto_muysatisfechos d ON d.colonia_id = a.colonia_id
-  WHERE a.seguimiento = 4 AND a.deleted_at IS NULL 
-  GROUP BY a.colonia_id, c.colonia";
-
+    $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.alcaldia_id = a.zona_id)AS meta, c.alcaldia, a.zona_id
+    FROM personas a
+    INNER JOIN alcaldias c ON c.id = a.zona_id
+    INNER JOIN metas_mnto_muysatisfechos d ON d.colonia_id = a.colonia_id
+    WHERE a.seguimiento = 4 AND a.deleted_at IS NULL
+    GROUP BY a.zona_id, c.alcaldia";
     $metasPorAlcaldias = DB::select($query);
-    $acumulados = 0;
+    $actual = 0; 
+    $metaParcial = 0;
+    $totalAlcaldias = 0; 
     foreach ($metasPorAlcaldias as $meta) {
       if ($meta->meta < $meta->actual) {
-        $actual = $meta->actual - $meta->meta;
-        $acumulados = $acumulados + $actual;
+        $m = $meta->meta;
+        $metaParcial = $m + $metaParcial;
+      }else{
+        $a = $meta->actual;
+        $actual = $a + $actual;
       }
     }
+    $totalAlcaldias = $metaParcial + $actual;
     foreach ($metaRegion as $meta) {
-      if ($meta->meta <  $acumulados) {
-        $actual =  $acumulados - $meta->meta;
-        $meta->actual = $meta->meta;
+      if ($meta->meta < $totalAlcaldias) {
+        $actual =  $meta->actual-$meta->meta;
         $chart = [
           "chart" => [
             "type" => "gauge",
@@ -99,7 +103,6 @@ class DashboardMntoMuySatisfechoController extends Controller
           ]
         ];
       } else {
-        $metaActual = $meta->actual - $acumulados;
         $chart = [
           "chart" => [
             "type" => "gauge",
@@ -152,7 +155,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           "series" => [
             [
               "name" => "Satisfechos",
-              "data" => [intval($metaActual)],
+              "data" => [intval($totalAlcaldias)],
               "tooltip" => [
                 "valueSuffix" => "vecinos"
               ]
@@ -185,23 +188,9 @@ class DashboardMntoMuySatisfechoController extends Controller
     $metas = DB::select($query);
 
     foreach ($metas as $meta) {
-      $acumulado = 0;
-      $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-        FROM personas a
-        INNER JOIN colonias c ON c.id = a.colonia_id
-        INNER JOIN metas_mnto_muysatisfechos d ON d.colonia_id = a.colonia_id
-        WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $meta->zona_id
-        GROUP BY a.colonia_id, c.colonia";
-      $res = DB::Select($query);
-      foreach ($res as $resultado) {
-        if ($resultado->meta < $resultado->actual) {
-          $a = $resultado->actual - $resultado->meta;
-          $acumulado = $acumulado + $a;
-        }
-      }
-      if (intval($meta->meta) < intval($acumulado)) {
+      if (intval($meta->meta) < intval($meta->actual)) {
 
-        $adicional = intval($acumulado) - intval($meta->meta);
+        $adicional = intval($meta->actual) - intval($meta->meta);
 
         $meta->actual = $meta->meta;
 
@@ -270,7 +259,6 @@ class DashboardMntoMuySatisfechoController extends Controller
           ]
         ];
       } else {
-        $actual = intval($meta->actual - intval($acumulado));
         $chart = [
           "chart" => [
             "type" => "gauge",
@@ -323,7 +311,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           "series" => [
             [
               "name" => "Satisfechos",
-              "data" => [intval($actual)],
+              "data" => [intval($meta->actual)],
               "tooltip" => [
                 "valueSuffix" => "vecinos"
               ]
@@ -352,23 +340,9 @@ class DashboardMntoMuySatisfechoController extends Controller
     $metas = DB::select($query);
 
     foreach ($metas as $meta) {
-      $acumulado = 0;
-      $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-      FROM personas a
-      INNER JOIN colonias c ON c.id = a.colonia_id
-      INNER JOIN metas_mnto_muysatisfechos d ON d.colonia_id = a.colonia_id
-      WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $meta->zona_id
-      GROUP BY a.colonia_id, c.colonia";
-      $res = DB::Select($query);
-      foreach ($res as $resultado) {
-        if ($resultado->meta < $resultado->actual) {
-          $a = $resultado->actual - $resultado->meta;
-          $acumulado = $acumulado + $a;
-        }
-      }
-      if (intval($meta->meta) < intval($acumulado)) {
+      if (intval($meta->meta) < intval($meta->actual)) {
 
-        $adicional = intval($acumulado) - intval($meta->meta);
+        $adicional = intval($meta->actual) - intval($meta->meta);
 
         $meta->actual = $meta->meta;
 
@@ -437,7 +411,6 @@ class DashboardMntoMuySatisfechoController extends Controller
           ]
         ];
       } else {
-        $actual = intval($meta->actual - intval($acumulado));
         $chart = [
           "chart" => [
             "type" => "gauge",
@@ -490,7 +463,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           "series" => [
             [
               "name" => "Satisfechos",
-              "data" => [intval($actual)],
+              "data" => [intval($meta->actual)],
               "tooltip" => [
                 "valueSuffix" => "vecinos"
               ]
@@ -875,21 +848,8 @@ class DashboardMntoMuySatisfechoController extends Controller
 
 
     foreach ($metasNuevas as $meta) {
-      $acumulado = 0;
-      $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-      FROM personas a
-      INNER JOIN colonias c ON c.id = a.colonia_id
-      WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $id AND c.distrito_id = $meta->distrito
-      GROUP BY a.colonia_id, c.colonia";
-      $res = DB::Select($query);
-      foreach ($res as $resultado) {
-        if ($resultado->meta < $resultado->actual) {
-          $a = $resultado->actual - $resultado->meta;
-          $acumulado = $acumulado + $a;
-        }
-      }
-      if ($meta->meta < $acumulado) {
-        $actual = $acumulado - $meta->meta;
+      if ($meta->meta < $meta->actual) {
+        $actual = $meta->actual - $meta->meta;
         $meta->actual = $meta->meta;
         $chart = [
           "chart" => [
@@ -956,7 +916,6 @@ class DashboardMntoMuySatisfechoController extends Controller
           ]
         ];
       } else {
-        $metaActual = $meta->actual - $acumulado;
         $chart = [
           "chart" => [
             "type" => "gauge",
@@ -1009,7 +968,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           "series" => [
             [
               "name" => "Satisfechos",
-              "data" => [intval($metaActual)],
+              "data" => [intval($meta->actual)],
               "tooltip" => [
                 "valueSuffix" => "vecinos"
               ]
@@ -1091,21 +1050,8 @@ class DashboardMntoMuySatisfechoController extends Controller
 
 
     foreach ($metasNuevas as $meta) {
-      $acumulado = 0;
-      $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-      FROM personas a
-      INNER JOIN colonias c ON c.id = a.colonia_id
-      WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = $id AND c.distrito_id = $meta->distrito
-      GROUP BY a.colonia_id, c.colonia";
-      $res = DB::Select($query);
-      foreach ($res as $resultado) {
-        if ($resultado->meta < $resultado->actual) {
-          $a = $resultado->actual - $resultado->meta;
-          $acumulado = $acumulado + $a;
-        }
-      }
-      if ($meta->meta < $acumulado) {
-        $actual = $acumulado - $meta->meta;
+      if ($meta->meta < $meta->actual) {
+        $actual = $meta->actual - $meta->meta;
         $meta->actual = $meta->meta;
         $chart = [
           "chart" => [
@@ -1172,7 +1118,6 @@ class DashboardMntoMuySatisfechoController extends Controller
           ]
         ];
       } else {
-        $metaActual = $meta->actual - $acumulado;
         $chart = [
           "chart" => [
             "type" => "gauge",
@@ -1225,7 +1170,7 @@ class DashboardMntoMuySatisfechoController extends Controller
           "series" => [
             [
               "name" => "Satisfechos",
-              "data" => [intval($metaActual)],
+              "data" => [intval($meta->actual)],
               "tooltip" => [
                 "valueSuffix" => "vecinos"
               ]
@@ -1415,94 +1360,24 @@ class DashboardMntoMuySatisfechoController extends Controller
     $sector3 = 0;
     $sector4 = 0;
     $sector5 = 0;
-    $acumulado1 = 0;
-    $acumulado2 = 0;
-    $acumulado3 = 0;
-    $acumulado4 = 0;
-    $acumulado5 = 0;
 
     foreach ($actual as $act) {
 
       switch ($act->id) {
         case '1':
-          $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-          FROM personas a
-          INNER JOIN colonias c ON c.id = a.colonia_id
-          WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 1
-          GROUP BY a.colonia_id, c.colonia";
-          $res = DB::select($query);
-          foreach ($res as $e) {
-            $resta = 0;
-            if ($e->meta < $e->actual) {
-              $resta = $e->actual - $e->meta;
-            }
-            $acumulado1 = $resta + $acumulado1;
-          }
-          $sector1 = $act->actual - $acumulado1;
+          $sector1 = $act->actual;
           break;
         case '2':
-          $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-          FROM personas a
-          INNER JOIN colonias c ON c.id = a.colonia_id
-          WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 2
-          GROUP BY a.colonia_id, c.colonia";
-          $res = DB::select($query);
-          foreach ($res as $e) {
-            $resta = 0;
-            if ($e->meta < $e->actual) {
-              $resta = $e->actual - $e->meta;
-            }
-            $acumulado2 = $resta + $acumulado2;
-          }
-          $sector2 = $act->actual - $acumulado2;
+          $sector2 = $act->actual;
           break;
         case '3':
-          $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-          FROM personas a
-          INNER JOIN colonias c ON c.id = a.colonia_id
-          WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 3
-          GROUP BY a.colonia_id, c.colonia";
-          $res = DB::select($query);
-          foreach ($res as $e) {
-            $resta = 0;
-            if ($e->meta < $e->actual) {
-              $resta = $e->actual - $e->meta;
-            }
-            $acumulado3 = $resta + $acumulado3;
-          }
-          $sector3 = $act->actual - $acumulado3;
+          $sector3 = $act->actual;
           break;
         case '4':
-          $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-          FROM personas a
-          INNER JOIN colonias c ON c.id = a.colonia_id
-          WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 4
-          GROUP BY a.colonia_id, c.colonia";
-          $res = DB::select($query);
-          foreach ($res as $e) {
-            $resta = 0;
-            if ($e->meta < $e->actual) {
-              $resta = $e->actual - $e->meta;
-            }
-            $acumulado4 = $resta + $acumulado4;
-          }
-          $sector4 = $act->actual - $acumulado4;
+          $sector4 = $act->actual;
           break;
         case '5':
-          $query = "SELECT COUNT(a.id)AS actual, (SELECT SUM(b.meta)FROM metas_mnto_muysatisfechos b WHERE b.colonia_id = a.colonia_id)AS meta, c.colonia
-          FROM personas a
-          INNER JOIN colonias c ON c.id = a.colonia_id
-          WHERE a.seguimiento = 4 AND a.deleted_at IS NULL AND a.zona_id = 3 AND c.sector_id = 5
-          GROUP BY a.colonia_id, c.colonia";
-          $res = DB::select($query);
-          foreach ($res as $e) {
-            $resta = 0;
-            if ($e->meta < $e->actual) {
-              $resta = $e->actual - $e->meta;
-            }
-            $acumulado5 = $resta + $acumulado5;
-          }
-          $sector5 = $act->actual - $acumulado5;
+          $sector5 = $act->actual;
           break;
       }
     }
