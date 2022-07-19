@@ -243,6 +243,8 @@ $router->group(["prefix" => "/v1"], function () use ($router) {
         $router->get('/roles', 'CatalogosController@getRoles');
         //Lista de zonas
         $router->get('/zonas', 'CatalogosController@getZonas');
+         //Lista de zonas
+         $router->get('/zonas/{id}', 'CatalogosController@getZonasByAlcaldia');
         //Lista de liderazgo
         $router->get('/liderazgo', 'CatalogosController@getLiderazgo');
         //Lista de dependencias
