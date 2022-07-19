@@ -16,5 +16,8 @@ class ZonasServiceImpl implements IZonasServiceInterface {
     function getZonas(){
         return $this->model->get();
     }
+    function getZonasByAlcaldia(int $id){
+        return $this->model->where('id',$id)->get();
+    }
 
 }
