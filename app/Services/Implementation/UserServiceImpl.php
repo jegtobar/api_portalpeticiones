@@ -73,8 +73,45 @@ class UserServiceImpl implements IUserServiceInterface{
     }
     //Funcion para creacion de usuario @param array $user, @param int $id, @return void
     function postUser(array $user){
-        $user['password']=Hash::make($user['password']);
-        $this->model->create($user);
+        $dpiExiste = DB::table('users')
+        ->select('dpi', 'deleted_at', 'username')
+        ->where('dpi','=',$user['dpi'])
+        ->first();
+        if(empty($dpiExiste)){
+            $usuarioExiste = DB::table('users')
+            ->select('username')
+            ->where('username','=',$user['username'])
+            ->first();
+            if(empty($usuarioExiste)){
+                $user['password']=Hash::make($user['password']);
+                $this->model->create($user);
+                $response = response()->json(['data'=>"Usuario creado con éxito", 'icon'=>'success']);;
+            }else{
+                $response = response()->json(['data'=>"Ya existe un colaborador con el mismo nombre de usuario", 'icon'=>'warning']);
+            }
+         }else      
+        if(!empty($dpiExiste) && empty($dpiExiste->deleted_at)){
+            $response = response()->json(['data'=>"Existe un usuario activo con el dpi ingresado", 'icon'=>'warning']);
+        }else{
+            if(!empty($user['password'])){
+                $user['password']=Hash::make($user['password']);
+            }
+            if($user['alcaldia_id']==2 || $user['alcaldia_id']==3){
+                $user['distrito_id']=null;
+            }
+            if($user['alcaldia_id']==1 || $user['alcaldia_id']==21){
+                $user['sector_id']=null;
+            }
+            $usuarioUpdate = $this->model->where('dpi',$dpiExiste->dpi);
+            $usuarioUpdate->restore();
+            $this->model->where('dpi',$dpiExiste->dpi)
+            ->first()
+            ->fill($user)
+            ->save();
+            
+            $response = response()->json(['data'=>"Usuario restaurado", 'icon'=>'success']);;
+        }
+        return $response;
     }
     //Funcion para actualizacion de usuario @param int $id, @return boolean
     function putUser(array $user, int $id){
@@ -83,6 +120,9 @@ class UserServiceImpl implements IUserServiceInterface{
         }
         if($user['alcaldia_id']==2 || $user['alcaldia_id']==3){
             $user['distrito_id']=null;
+        }
+        if($user['alcaldia_id']==1 || $user['alcaldia_id']==21){
+            $user['sector_id']=null;
         }
         $this->model->where('id',$id)
         ->first()
@@ -99,8 +139,8 @@ class UserServiceImpl implements IUserServiceInterface{
         }
     }
     //Funcion para restaurar usuario bloqueado @param int $id, @return boolean
-    function restoreUser(int $id){
-        $user = $this->model->withTrashed()->find($id);
+    public function restoreUser(int $dpi){
+        $user = $this->model->withTrashed()->find($dpi);
         if($user != null){
             $user->restore();
         }
