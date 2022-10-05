@@ -25,21 +25,7 @@ class UserController extends Controller
         //Creacion de usuarios
     function createUser(){
 
-        $response = response("", 201);
-
-        $validator = $this->validator->validate();
-        if ($validator->fails()){
-            $response = response([
-                "status"=>422,
-                "message"=>"Error",
-                "errors"=>$validator->errors()
-            ],422);
-        }else{
-            $this->userService->postUser($this->request->all());
-        }
-
-        return $response;
-
+        return $this->userService->postUser($this->request->all());
 
     }
     //Lista de usuarios activos
