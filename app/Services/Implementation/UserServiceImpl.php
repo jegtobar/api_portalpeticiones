@@ -83,7 +83,15 @@ class UserServiceImpl implements IUserServiceInterface{
             ->where('username','=',$user['username'])
             ->first();
             if(empty($usuarioExiste)){
-                $user['password']=Hash::make($user['password']);
+                if(!empty($user['password'])){
+                    $user['password']=Hash::make($user['password']);
+                }
+                if($user['alcaldia_id']==2 || $user['alcaldia_id']==3){
+                    $user['distrito_id']=null;
+                }
+                if($user['alcaldia_id']==1 || $user['alcaldia_id']==21){
+                    $user['sector_id']=null;
+                }
                 $this->model->create($user);
                 $response = response()->json(['data'=>"Usuario creado con éxito", 'icon'=>'success']);;
             }else{
